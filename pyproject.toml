@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ftracer"
+version = "1.0.0"
+description = "ftracer (TraceBox) — High-performance Stealth Behavioral Analysis Framework for Windows"
+readme = "README.md"
+authors = [
+    { name = "FBX2" }
+]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Security",
+    "Intended Audience :: Information Technology",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "yara-python>=4.5.0",
+]
+
+[project.scripts]
+# CLI tool is now moved to the example implementation. 
+# Analysts should use the library directly.
+
+[tool.setuptools]
+package-dir = { "" = "." }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ftracer*"]
+
+[project.urls]
+Homepage = "https://github.com/fareed1-ataf/Ftracer"
+Repository = "https://github.com/fareed1-ataf/Ftracer.git"
