@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ftracer"
+name = "bx2trace"
 version = "1.0.0"
-description = "ftracer (TraceBox) — High-performance Stealth Behavioral Analysis Framework for Windows"
+description = "bx2trace (TraceBox) — High-performance Stealth Behavioral Analysis Framework for Windows"
 readme = "README.md"
 authors = [
     { name = "FBX2" }
@@ -31,8 +31,8 @@ package-dir = { "" = "." }
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["ftracer*"]
+include = ["bx2trace*"]
 
 [project.urls]
-Homepage = "https://github.com/fareed1-ataf/Ftracer"
-Repository = "https://github.com/fareed1-ataf/Ftracer.git"
+Homepage = "https://github.com/fareed1-ataf/Bxtracer"
+Repository = "https://github.com/fareed1-ataf/Bxtracer.git"

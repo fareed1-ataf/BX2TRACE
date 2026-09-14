@@ -14,7 +14,7 @@ OpenProcess in MEMORY_DUMP mode (an already running process we are not debugging
 import ctypes
 from ctypes import wintypes
 
-from ftracer.core.win_structs import MEMORY_BASIC_INFORMATION
+from bx2trace.core.win_structs import MEMORY_BASIC_INFORMATION
 
 kernel32 = ctypes.windll.kernel32
 
@@ -42,7 +42,7 @@ kernel32.OpenProcess.restype = wintypes.HANDLE
 
 def open_process_for_dump(pid: int):
     """Used only in MEMORY_DUMP mode — an already running process, we are not its Debugger."""
-    from ftracer.core.constants import PROCESS_DUMP_ACCESS
+    from bx2trace.core.constants import PROCESS_DUMP_ACCESS
     handle = kernel32.OpenProcess(PROCESS_DUMP_ACCESS, False, pid)
     if not handle:
         error_code = kernel32.GetLastError()
@@ -110,7 +110,7 @@ def read_committed_regions(
     """
     Combines enumerate + read in one convenient function.
     """
-    from ftracer.core.constants import MEM_COMMIT
+    from bx2trace.core.constants import MEM_COMMIT
 
     _max_bytes = max_region_size_mb * 1024 * 1024
     results = []
@@ -142,9 +142,9 @@ def patch_peb_stealth(process_handle: wintypes.HANDLE) -> bool:
     Clears 'BeingDebugged' and 'NtGlobalFlag' fields.
     Returns True on success.
     """
-    from ftracer.core.win_structs import PROCESS_BASIC_INFORMATION, ntdll
+    from bx2trace.core.win_structs import PROCESS_BASIC_INFORMATION, ntdll
     import logging
-    log = logging.getLogger("ftracer.stealth")
+    log = logging.getLogger("bx2trace.stealth")
 
     pbi = PROCESS_BASIC_INFORMATION()
     ret_len = wintypes.DWORD()

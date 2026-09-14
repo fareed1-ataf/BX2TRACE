@@ -1,16 +1,16 @@
-# ftracer (TraceBox)
+# bx2trace (TraceBox)
 
 **Developed by FBX2**
 
-GitHub Repository: [https://github.com/fareed1-ataf/Ftracer](https://github.com/fareed1-ataf/Ftracer)
+GitHub Repository: [https://github.com/fareed1-ataf/Bxtracer](https://github.com/fareed1-ataf/Bxtracer)
 
-`ftracer` is an advanced, high-performance behavioral analysis framework for Windows, specifically designed for
+`bx2trace` is an advanced, high-performance behavioral analysis framework for Windows, specifically designed for
 cybersecurity analysts and malware researchers. It provides deep visibility into process behavior, live memory changes,
 and stealth debugging capabilities.
 
 ## Overview
 
-Unlike standard debuggers, `ftracer` is built for **automated analysis** and **stealth**. It monitors process creation,
+Unlike standard debuggers, `bx2trace` is built for **automated analysis** and **stealth**. It monitors process creation,
 DLL loading, and thread activity while simultaneously scanning live memory for indicators of compromise (IoCs),
 self-unpacking behavior, and encrypted payloads using YARA and entropy analysis.
 
@@ -32,10 +32,10 @@ self-unpacking behavior, and encrypted payloads using YARA and entropy analysis.
 ## Installation
 
 ```bash
-pip install ftracer
+pip install bx2trace
 ```
 
-> **Important:** `ftracer` requires **Administrator privileges** to function correctly as it needs `SeDebugPrivilege` to
+> **Important:** `bx2trace` requires **Administrator privileges** to function correctly as it needs `SeDebugPrivilege` to
 > monitor other processes.
 
 ## Requirements
@@ -48,19 +48,19 @@ pip install ftracer
 
 ## Usage Guide
 
-The `ftracer` package is a library. While it includes internal components to build complex analysis engines, most users
+The `bx2trace` package is a library. While it includes internal components to build complex analysis engines, most users
 will interact with the high-level components or build their own tools using the provided modules.
 
 ### Python API Usage
 
-Analysts can build their own custom analysis tools by leveraging the core components of `ftracer`.
+Analysts can build their own custom analysis tools by leveraging the core components of `bx2trace`.
 
 #### 1. Basic Process Monitoring
 
 ```python
 from queue import Queue
-from ftracer.core.debug_thread import DebugThread
-from ftracer.core.models import TraceMode
+from bx2trace.core.debug_thread import DebugThread
+from bx2trace.core.models import TraceMode
 
 # Event queue for collecting data
 event_queue = Queue()
@@ -85,9 +85,9 @@ except KeyboardInterrupt:
 
 ```python
 from queue import Queue
-from ftracer.core.debug_thread import DebugThread
-from ftracer.core.memory_scanner import MemoryScannerThread
-from ftracer.core.models import TraceMode
+from bx2trace.core.debug_thread import DebugThread
+from bx2trace.core.memory_scanner import MemoryScannerThread
+from bx2trace.core.models import TraceMode
 
 event_queue = Queue()
 

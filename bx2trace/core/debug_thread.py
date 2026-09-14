@@ -24,14 +24,14 @@ import uuid as _uuid
 from ctypes import wintypes
 from typing import Dict, Any
 
-from ftracer.core import constants as c
-from ftracer.core.models import Severity, TraceEvent, EventCategory, EventAction
-from ftracer.core.process_launcher import create_process_debug
-from ftracer.core.win_structs import DEBUG_EVENT, CONTEXT
-from ftracer.core.api_hooker import HookManager
+from bx2trace.core import constants as c
+from bx2trace.core.models import Severity, TraceEvent, EventCategory, EventAction
+from bx2trace.core.process_launcher import create_process_debug
+from bx2trace.core.win_structs import DEBUG_EVENT, CONTEXT
+from bx2trace.core.api_hooker import HookManager
 
 kernel32 = ctypes.windll.kernel32
-_log = logging.getLogger("ftracer.debug")
+_log = logging.getLogger("bx2trace.debug")
 
 kernel32.WaitForDebugEvent.argtypes = [ctypes.POINTER(DEBUG_EVENT), wintypes.DWORD]
 kernel32.WaitForDebugEvent.restype = wintypes.BOOL
@@ -78,7 +78,7 @@ class DebugThread(threading.Thread):
             hw_breakpoints: list[int] | None = None,
             cmd_args: str = "",
     ):
-        super().__init__(daemon=True, name=f"ftracer-debug-{_uuid.uuid4().hex[:8]}")
+        super().__init__(daemon=True, name=f"bx2trace-debug-{_uuid.uuid4().hex[:8]}")
         self.exe_path = exe_path
         self.cmd_args = cmd_args
         self.mode = mode
@@ -301,7 +301,7 @@ class DebugThread(threading.Thread):
         _log.info("Process created: PID %d, Path: %s (Root: %s)", pid, path, is_root)
 
         # Apply PEB Patching for Stealth
-        from ftracer.memory.reader import patch_peb_stealth
+        from bx2trace.memory.reader import patch_peb_stealth
         if patch_peb_stealth(info.hProcess):
             _log.info("Successfully applied stealth patches to PID %d", pid)
         else:
@@ -350,7 +350,7 @@ class DebugThread(threading.Thread):
         size = min(info.nDebugStringLength, 4096)  # cap at 4KB
         if size == 0:
             return
-        from ftracer.memory.reader import read_region
+        from bx2trace.memory.reader import read_region
         data = read_region(tracked.handle, info.lpDebugStringData, size)
         if data:
             encoding = "utf-16-le" if info.fUnicode else "ascii"
@@ -498,7 +498,7 @@ class DebugThread(threading.Thread):
 
     def _read_wstring(self, h_process, address, max_len=512) -> str:
         if not address: return "NULL"
-        from ftracer.memory.reader import read_region
+        from bx2trace.memory.reader import read_region
         data = read_region(h_process, address, max_len * 2)
         if not data: return "ErrorReadingMemory"
         try:
@@ -508,7 +508,7 @@ class DebugThread(threading.Thread):
 
     def _read_bytes(self, h_process, address, size) -> bytes | None:
         if not address: return None
-        from ftracer.memory.reader import read_region
+        from bx2trace.memory.reader import read_region
         return read_region(h_process, address, size)
 
     def _resume_from_hook(self, h_thread, ctx, address, pid):

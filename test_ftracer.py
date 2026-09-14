@@ -3,15 +3,15 @@ import sys
 import threading
 import queue
 
-# Ensure we can import ftracer from the current directory if pip install fails
+# Ensure we can import bx2trace from the current directory if pip install fails
 sys.path.insert(0, os.path.abspath("."))
 
-from ftracer.core.debug_thread import DebugThread
-from ftracer.core.memory_scanner import MemoryScannerThread
-from ftracer.core.models import TraceMode
+from bx2trace.core.debug_thread import DebugThread
+from bx2trace.core.memory_scanner import MemoryScannerThread
+from bx2trace.core.models import TraceMode
 
 def test_full():
-    print("--- Starting ftracer Integration Test ---")
+    print("--- Starting bx2trace Integration Test ---")
     event_queue = queue.Queue()
     
     # Launch cmd without arguments because create_process_debug doesn't support them yet

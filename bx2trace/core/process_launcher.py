@@ -10,8 +10,8 @@ import ctypes
 import os
 from ctypes import wintypes
 
-from ftracer.core import constants as c
-from ftracer.core.win_structs import PROCESS_INFORMATION, STARTUPINFO
+from bx2trace.core import constants as c
+from bx2trace.core.win_structs import PROCESS_INFORMATION, STARTUPINFO
 
 kernel32 = ctypes.windll.kernel32
 
@@ -76,7 +76,7 @@ def create_process_debug(
     if not os.path.isfile(exe_path):
         raise FileNotFoundError(f"File not found: {exe_path}")
 
-    from ftracer.core.models import TraceMode  # local import to avoid circular dependency
+    from bx2trace.core.models import TraceMode  # local import to avoid circular dependency
 
     creation_flags = c.DEBUG_PROCESS  # ← Automatically monitors children
     if create_new_console and mode != TraceMode.MONITOR_ONLY:

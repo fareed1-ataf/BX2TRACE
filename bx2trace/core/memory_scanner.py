@@ -24,13 +24,13 @@ try:
 except ImportError:
     yara = None
 
-from ftracer.core import constants as c
-from ftracer.core.models import Severity, TraceEvent
-from ftracer.extractors.entropy import entropy_by_page
-from ftracer.extractors.strings import diff_new_strings, extract_strings
-from ftracer.memory.reader import read_committed_regions
+from bx2trace.core import constants as c
+from bx2trace.core.models import Severity, TraceEvent
+from bx2trace.extractors.entropy import entropy_by_page
+from bx2trace.extractors.strings import diff_new_strings, extract_strings
+from bx2trace.memory.reader import read_committed_regions
 
-_log = logging.getLogger("ftracer.scanner")
+_log = logging.getLogger("bx2trace.scanner")
 
 
 class MemoryScannerThread(threading.Thread):
@@ -53,7 +53,7 @@ class MemoryScannerThread(threading.Thread):
         All threshold/limit parameters mirror the fields in EngineConfig so the
         engine can forward them without hardcoding values at this layer.
         """
-        super().__init__(daemon=True, name="ftracer-scanner")
+        super().__init__(daemon=True, name="bx2trace-scanner")
         self._get_tracked_handles = get_tracked_handles
         self.event_queue = event_queue
         self.interval = interval
