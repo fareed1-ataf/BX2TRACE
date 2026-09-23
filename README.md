@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🔬 bx2trace
+# 🔬 BX2TRACE
 
 ### Stealth Behavioral Analysis Framework for Windows
 
@@ -14,7 +14,7 @@
 
 ---
 
-**`bx2trace` launches any Windows executable under a hidden debugger, intercepts every dangerous API call in real-time via `INT3` software breakpoints, scans live memory for decrypted payloads and YARA signatures — all from pure Python, with zero kernel drivers and zero disk writes.**
+**`BX2TRACE` launches any Windows executable under a hidden debugger, intercepts every dangerous API call in real-time via `INT3` software breakpoints, scans live memory for decrypted payloads and YARA signatures — all from pure Python, with zero kernel drivers and zero disk writes.**
 
 Built for malware analysts, threat hunters, and AI-powered security pipelines.
 
@@ -24,7 +24,7 @@ Built for malware analysts, threat hunters, and AI-powered security pipelines.
 
 ## 📋 Table of Contents
 
-1. [Why bx2trace?](#-why-bx2trace)
+1. [Why BX2TRACE?](#-why-BX2TRACE)
 2. [Architecture](#-architecture)
 3. [Requirements & Installation](#-requirements--installation)
 4. [Quick Start — 15 Lines](#-quick-start--15-lines)
@@ -48,11 +48,11 @@ Built for malware analysts, threat hunters, and AI-powered security pipelines.
 
 ---
 
-## 🎯 Why bx2trace?
+## 🎯 Why BX2TRACE?
 
-Most dynamic analysis tools require a VM, a kernel driver, or a complex setup. `bx2trace` is different:
+Most dynamic analysis tools require a VM, a kernel driver, or a complex setup. `BX2TRACE` is different:
 
-| Problem | bx2trace Solution |
+| Problem | BX2TRACE Solution |
 |---------|-------------------|
 | Tools need kernel drivers | Pure user-mode, zero drivers |
 | Malware detects sandboxes | PEB stealth patch hides the debugger |
@@ -138,7 +138,7 @@ pip install -e .
 **Verify:**
 ```python
 import bx2trace
-print(bx2trace.__version__)  # 1.1.0
+print(BX2TRACE.__version__)  # 1.1.0
 ```
 
 > ⚠️ **Run as Administrator.** `ReadProcessMemory`, `WriteProcessMemory`, and `DEBUG_PROCESS` all require `SeDebugPrivilege`. The library raises `RuntimeError` immediately if this is not satisfied.
@@ -289,7 +289,7 @@ session.join()
 
 ### Example 3 — AI-Powered Event Analysis with LLM
 
-`bx2trace` is designed to be the **perception layer** under an AI agent. Every `TraceEvent` is JSON-serializable, making it trivial to feed events into any LLM for behavioral narration or threat scoring:
+`BX2TRACE` is designed to be the **perception layer** under an AI agent. Every `TraceEvent` is JSON-serializable, making it trivial to feed events into any LLM for behavioral narration or threat scoring:
 
 ```python
 import json
@@ -634,9 +634,9 @@ print("All events saved to trace_events.db")
 
 ## 🤖 AI Integration Guide
 
-`bx2trace` is architected to be the **ground-truth sensor layer** beneath any AI security system. Here is how it fits into modern AI-driven security workflows:
+`BX2TRACE` is architected to be the **ground-truth sensor layer** beneath any AI security system. Here is how it fits into modern AI-driven security workflows:
 
-### Architecture Pattern: bx2trace + LLM Agent
+### Architecture Pattern: BX2TRACE + LLM Agent
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -651,14 +651,14 @@ print("All events saved to trace_events.db")
 │         │             └──────────────────────┘  │
 │         ▼                                       │
 │  ┌──────────────┐                               │
-│  │   bx2trace   │  ← Ground truth sensor        │
+│  │   BX2TRACE   │  ← Ground truth sensor        │
 │  │  TraceSession│    All events are real,        │
 │  │              │    typed, and timestamped      │
 │  └──────────────┘                               │
 └─────────────────────────────────────────────────┘
 ```
 
-### Why bx2trace is ideal for AI pipelines:
+### Why BX2TRACE is ideal for AI pipelines:
 
 | Property | Benefit for AI |
 |----------|---------------|
@@ -672,11 +672,11 @@ print("All events saved to trace_events.db")
 ### Example: AutoGen Multi-Agent Threat Analysis
 
 ```python
-# Concept sketch — plug bx2trace into any multi-agent framework
+# Concept sketch — plug BX2TRACE into any multi-agent framework
 import json
 from bx2trace import TraceSession, EngineConfig, TraceMode
 
-# bx2trace acts as the "tool" that agents call
+# BX2TRACE acts as the "tool" that agents call
 def get_next_event_batch(session: TraceSession, batch_size: int = 50) -> list[dict]:
     """Tool callable by an AI agent to get the next batch of behavioral events."""
     events = []
@@ -704,7 +704,7 @@ def get_next_event_batch(session: TraceSession, batch_size: int = 50) -> list[di
 #     return json.dumps(batch)   # AI agent receives real behavioral data
 ```
 
-### Using bx2trace for AI Training Data
+### Using BX2TRACE for AI Training Data
 
 ```python
 # Collect labeled behavioral traces for model training
@@ -892,7 +892,7 @@ Alert keys: `target_ip`, `target_port`, `connection_count`, `avg_interval_sec`
 ## 🗺 Module Map
 
 ```
-bx2trace/
+BX2TRACE/
 ├── __init__.py                  Public API — all 38 exported symbols
 │
 ├── core/
@@ -923,7 +923,7 @@ bx2trace/
 
 ## 📊 Comparison with Similar Tools
 
-| Feature | **bx2trace** | Cuckoo Sandbox | x64dbg (manual) | Frida |
+| Feature | **BX2TRACE** | Cuckoo Sandbox | x64dbg (manual) | Frida |
 |---------|:---:|:---:|:---:|:---:|
 | Pure Python, embeddable | ✅ | ✅ | ❌ | Partial |
 | No VM required | ✅ | ❌ (VM) | ✅ | ✅ |
@@ -955,7 +955,7 @@ bx2trace/
 
 ## ⚖️ Disclaimer
 
-`bx2trace` is intended **strictly for educational and research purposes**. Use it only on systems you own or have **explicit written permission** to analyze. The authors assume no liability for misuse.
+`BX2TRACE` is intended **strictly for educational and research purposes**. Use it only on systems you own or have **explicit written permission** to analyze. The authors assume no liability for misuse.
 
 ---
 
@@ -963,8 +963,19 @@ bx2trace/
 
 **Built for security engineers who demand precision, stealth, and extensibility.**
 
-*bx2trace v1.1.0 — © FBX2 — MIT License*
+*BX2TRACE v1.1.0 — © FBX2 — MIT License*
 
 [![Star on GitHub](https://img.shields.io/github/stars/fareed1-ataf/Bxtracer?style=social)](https://github.com/fareed1-ataf/Bxtracer)
 
-</div>
+</div>---
+
+![BX2TRACE Architecture Overview](architecture.png)
+
+## 📖 What is BX2TRACE and Why Use It?
+
+**BX2TRACE** is a powerful, pure-Python behavioral analysis and dynamic tracing framework designed specifically for Windows environments. It allows security analysts, threat hunters, and automated systems to monitor, intercept, and analyze malware execution in real-time without the heavy footprint of a virtual machine or a kernel-mode driver.
+
+**Why use BX2TRACE?**
+Traditional analysis tools are either easily detected by malware (like standard sandboxes) or require complex setups (like kernel drivers). **BX2TRACE** solves this by operating entirely in user-mode using surgical software breakpoints (INT3) and live memory scanning. It proactively hides itself from the target process by patching the Process Environment Block (PEB), making it incredibly stealthy. It is the perfect engine for building AI-powered analysis tools, custom SIEM pipelines, or standalone triage scripts.
+
+
