@@ -106,7 +106,7 @@ def read_committed_regions(
         process_handle,
         protections_filter: set[int] | None = None,
         max_region_size_mb: int = 100,
-) -> list[tuple[int, bytes]]:
+) -> list[tuple[int, int, bytes]]:
     """
     Combines enumerate + read in one convenient function.
     """
@@ -131,7 +131,7 @@ def read_committed_regions(
         buffer = shared_buffer if region.RegionSize <= shared_buffer_size else None
         data = read_region(process_handle, region.BaseAddress or 0, region.RegionSize, buffer=buffer)
         if data:
-            results.append((region.BaseAddress or 0, data))
+            results.append((region.BaseAddress or 0, region.Protect, data))
 
     return results
 
@@ -162,19 +162,33 @@ def patch_peb_stealth(process_handle: wintypes.HANDLE) -> bool:
 
     # BeingDebugged is at offset 2
     # NtGlobalFlag is at offset 0xBC (64-bit)
+    # Clear BeingDebugged (offset 2)
     zero = ctypes.c_byte(0)
     written = ctypes.c_size_t(0)
-
-    # Clear BeingDebugged
-    kernel32.WriteProcessMemory(
-        process_handle, ctypes.c_void_p(peb_addr + 2), ctypes.byref(zero), 1, ctypes.byref(written)
+    ok_being_debugged = bool(
+        kernel32.WriteProcessMemory(
+            process_handle, ctypes.c_void_p(peb_addr + 2),
+            ctypes.byref(zero), 1, ctypes.byref(written)
+        ) and written.value == 1
     )
 
-    # Clear NtGlobalFlag (0xBC)
+    # Clear NtGlobalFlag (offset 0xBC on x64)
     zero_dword = wintypes.DWORD(0)
-    kernel32.WriteProcessMemory(
-        process_handle, ctypes.c_void_p(peb_addr + 0xBC), ctypes.byref(zero_dword), 4, ctypes.byref(written)
+    ok_nt_flag = bool(
+        kernel32.WriteProcessMemory(
+            process_handle, ctypes.c_void_p(peb_addr + 0xBC),
+            ctypes.byref(zero_dword), 4, ctypes.byref(written)
+        ) and written.value == 4
     )
 
-    log.info("PEB patched for PID via handle %s", process_handle)
-    return True
+    # Verify each field individually and log the outcome.
+    # The two writes are independent; either can fail on a hardened system.
+    if ok_being_debugged and ok_nt_flag:
+        log.info("PEB stealth: BeingDebugged=0, NtGlobalFlag=0 applied successfully.")
+        return True
+    else:
+        log.warning(
+            "PEB stealth partial failure — BeingDebugged=%s NtGlobalFlag=%s",
+            ok_being_debugged, ok_nt_flag,
+        )
+        return False

@@ -57,3 +57,22 @@ def diff_new_strings(previous: list[str], current: list[str]) -> list[str]:
     """
     previous_set = set(previous)
     return [s for s in current if s not in previous_set]
+
+
+def classify_strings(strings: list[str]) -> dict:
+    """
+    Classifies extracted strings into categories.
+    Returns a dict with 'urls', 'ips', 'generic' keys.
+    """
+    urls = []
+    ips = []
+    generic = []
+    for s in strings:
+        s_bytes = s.encode(errors="ignore")
+        if URL_PATTERN.search(s_bytes):
+            urls.append(s)
+        elif IPV4_PATTERN.search(s_bytes):
+            ips.append(s)
+        else:
+            generic.append(s)
+    return {"urls": urls, "ips": ips, "generic": generic}

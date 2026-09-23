@@ -167,6 +167,10 @@ class DEBUG_EVENT(ctypes.Structure):
 
 
 class CONTEXT(ctypes.Structure):
+    # _pack_ = 16 is mandatory: Windows requires the CONTEXT structure to be 16-byte aligned
+    # (__declspec(align(16)) in the SDK headers). Without this, GetThreadContext and
+    # SetThreadContext may fail silently or return corrupted register values.
+    _pack_ = 16
     _fields_ = [
         ("P1Home", ctypes.c_uint64),
         ("P2Home", ctypes.c_uint64),
