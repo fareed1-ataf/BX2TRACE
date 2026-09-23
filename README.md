@@ -14,6 +14,9 @@
 
 ---
 
+![BX2TRACE Architecture Overview](architecture.png)
+
+
 **`BX2TRACE` launches any Windows executable under a hidden debugger, intercepts every dangerous API call in real-time via `INT3` software breakpoints, scans live memory for decrypted payloads and YARA signatures — all from pure Python, with zero kernel drivers and zero disk writes.**
 
 Built for malware analysts, threat hunters, and AI-powered security pipelines.
@@ -969,7 +972,6 @@ BX2TRACE/
 
 </div>---
 
-![BX2TRACE Architecture Overview](architecture.png)
 
 ## 📖 What is BX2TRACE and Why Use It?
 
